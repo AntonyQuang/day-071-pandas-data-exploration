@@ -13,12 +13,18 @@ You can access individual cells in a DataFrame by chaining square brackets df['c
 
 The largest and smallest values, as well as their positions, can be found with methods like .max(), .min(), .idxmax() and .idxmin()
 
-You can sort the DataFrame with .sort_values() and add new columns with .insert()
+You can sort the DataFrame with .sort_values() and 
+
+add new columns with .insert()
 
 To create an Excel Style Pivot Table by grouping entries that belong to a particular category use the .groupby() method
 
 
 used .groupby() to explore the number of posts and entries per programming language
+
+new_df.groupby("TAG").sum()
+
+df_apps_clean[["App", "Installs"]].groupby("Installs").count()
 
 converted strings to Datetime objects with to_datetime() for easier plotting
 
@@ -90,7 +96,18 @@ create a bar chart with Matplotlib
 
 
 
+cat_number = df_apps_clean.Category.value_counts()
+print(cat_number.head())
 
+cat_merged = df_apps_clean.groupby("Category").agg({"App": pd.Series.count, "Installs": pd.Series.sum}).sort_values("Installs", ascending=False)
+cat_merged.head()
+
+
+Alternatively:
+cat_number = df_apps_clean.groupby('Category').agg({'App': pd.Series.count})
+cat_merged_df = pd.merge(cat_number, category_installs, on='Category', how="inner")
+print(f'The dimensions of the DataFrame are: {cat_merged_df.shape}')
+cat_merged_df.sort_values('Installs', ascending=False)
 
 
 I used Colabotory but you could also use Jupyter
