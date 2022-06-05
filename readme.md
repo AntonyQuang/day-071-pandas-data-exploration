@@ -109,5 +109,12 @@ cat_merged_df = pd.merge(cat_number, category_installs, on='Category', how="inne
 print(f'The dimensions of the DataFrame are: {cat_merged_df.shape}')
 cat_merged_df.sort_values('Installs', ascending=False)
 
+Pull a random sample from a DataFrame using .sample()
+
+How to find duplicate entries with .duplicated() and .drop_duplicates()
+
+How to convert string and object data types into numbers with .to_numeric()
+
+How to use plotly to generate beautiful pie, donut, and bar charts as well as box and scatter plots 
 
 I used Colabotory but you could also use Jupyter
