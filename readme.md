@@ -17,6 +17,11 @@ You can sort the DataFrame with .sort_values() and
 
 add new columns with .insert()
 
+future_releases = data[data.Release_Date >= scrape_date]
+future_releases
+data_clean = data.drop(future_releases.index)
+data_clean
+
 To create an Excel Style Pivot Table by grouping entries that belong to a particular category use the .groupby() method
 
 
@@ -25,6 +30,8 @@ used .groupby() to explore the number of posts and entries per programming langu
 new_df.groupby("TAG").sum()
 
 df_apps_clean[["App", "Installs"]].groupby("Installs").count()
+
+clean_df['Mid-Career 90th Percentile Salary'].subtract(clean_df['Mid-Career 10th Percentile Salary'])
 
 converted strings to Datetime objects with to_datetime() for easier plotting
 
@@ -113,8 +120,30 @@ Pull a random sample from a DataFrame using .sample()
 
 How to find duplicate entries with .duplicated() and .drop_duplicates()
 
+duplicated_rows = df_apps_clean[df_apps_clean.duplicated()]
+
 How to convert string and object data types into numbers with .to_numeric()
 
 How to use plotly to generate beautiful pie, donut, and bar charts as well as box and scatter plots 
+
+
+    Use nested loops to remove unwanted characters from multiple columns
+
+    Filter Pandas DataFrames based on multiple conditions using both .loc[] and .query()
+
+    Create bubble charts using the Seaborn Library
+
+    Style Seaborn charts using the pre-built styles and by modifying Matplotlib parameters
+
+    Use floor division (i.e., integer division) to convert years to decades
+
+    Use Seaborn to superimpose a linear regressions over our data
+
+    Make a judgement if our regression is good or bad based on how well the model fits our data and the r-squared metric
+
+    Run regressions with scikit-learn and calculate the coefficients. 
+
+
+
 
 I used Colabotory but you could also use Jupyter
