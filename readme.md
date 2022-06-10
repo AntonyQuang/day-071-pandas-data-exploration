@@ -38,6 +38,7 @@ converted strings to Datetime objects with to_datetime() for easier plotting
 reshaped our DataFrame by converting categories to columns using .pivot()
 
 used .count() and isna().values.any() to look for NaN values in our DataFrame, which we then replaced using .fillna()
+use df_data.isna().sum() to show how many NaN values there are in each column of dataframe df_data
 
 created (multiple) line charts using .plot() with a for-loop
 
@@ -47,7 +48,12 @@ added a legend to tell apart which line is which by colour
 
 smoothed out our time-series observations with .rolling().mean() and plotted them to better identify trends over time.
 
+roll_df = reshaped_df.rolling(window=6).mean()
+
+df_roll_unemployment = df_unemployment[["UE_BENEFITS_WEB_SEARCH","UNRATE"]].rolling(window=6).mean()
+
 colors_df['is_trans'].value_counts() is the same as colors_df.groupby('is_trans').count(), kinda
+
 colors_df['is_trans'].value_counts()['f'] to show just the falses
 
 
@@ -57,6 +63,11 @@ Aggregate Data with the Python .agg() Function
 Let's work out the number of different themes shipped by year. This means we have to count the number of unique theme_ids per calendar year.
 Note, the .agg() method takes a dictionary as an argument. In this dictionary, we specify which operation we'd like to apply to each column. In our case, we just want to calculate the number of unique entries in the theme_id column by using our old friend, the .nunique() method. 
 themes_by_year = sets_df.groupby('year').agg({'theme_id': pd.Series.nunique})
+
+df_free_vs_paid = df_apps_clean.groupby(["Category", "Type"], as_index=False).agg({"App": pd.Series.count})
+df_free_vs_paid.sort_values("App").head()
+
+no_of_prizes = df_data.groupby(["year"], as_index=False).agg({"prize": pd.Series.count})
 
 In this lesson we looked at how to:
 
@@ -102,6 +113,7 @@ create a bar chart with Matplotlib
     Using .grid() to help visually identify seasonality in a time series.
 
 
+Total number of installs each app category has:
 
 cat_number = df_apps_clean.Category.value_counts()
 print(cat_number.head())
@@ -126,6 +138,11 @@ How to convert string and object data types into numbers with .to_numeric()
 
 How to use plotly to generate beautiful pie, donut, and bar charts as well as box and scatter plots 
 
+genre_bar = px.bar(top_genres, x=top_genres.index, y=top_genres.values, color=top_genres.values, color_continuous_scale="Agsunset")
+genre_bar.update_layout(xaxis_title="Number of Apps", yaxis_title="Genre", title="Top Genres", coloraxis_showscale=False)
+
+genre_bar.show()
+
 
     Use nested loops to remove unwanted characters from multiple columns
 
@@ -144,6 +161,12 @@ How to use plotly to generate beautiful pie, donut, and bar charts as well as bo
     Run regressions with scikit-learn and calculate the coefficients. 
 
 
+import numpy as np
+
+# Create locators for ticks on the time axis
+year = mdates.YearLocator()
+months = mdates.MonthLocator() 
+years_fmt = mdates.DateFormatter('%Y')
 
 
 I used Colabotory but you could also use Jupyter
