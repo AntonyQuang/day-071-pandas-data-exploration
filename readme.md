@@ -93,6 +93,15 @@ work with tables in a relational database by using primary and foreign keys
 
 create a bar chart with Matplotlib
 
+plt.figure(figsize=(16,8), dpi=200)
+plt.title('Number of Nobel Prizes Awarded per Year', fontsize=18)
+plt.yticks(fontsize=14)
+plt.xticks(ticks=five_year_ticks, 
+           fontsize=14, 
+           rotation=45)
+
+ax1 = plt.gca()
+ax2 = ax1.twinx()
 
     How to use .describe() to quickly see some descriptive statistics at a glance.
 
@@ -160,6 +169,8 @@ genre_bar.show()
 
     Run regressions with scikit-learn and calculate the coefficients. 
 
+
+world_map.update_layout(coloraxis_showscale=True,)
 
 import numpy as np
 
