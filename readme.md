@@ -180,4 +180,12 @@ months = mdates.MonthLocator()
 years_fmt = mdates.DateFormatter('%Y')
 
 
+Doing cumsum
+
+prize_by_year = df_data.groupby(by=['birth_country_current', 'year'], as_index=False).count()
+prize_by_year = prize_by_year.sort_values('year')[['year', 'birth_country_current', 'prize']]
+cumulative_prizes = prize_by_year.groupby(by=['birth_country_current', 'year']).sum().groupby(level=[0]).cumsum()
+print(cumulative_prizes)
+cumulative_prizes.reset_index(inplace=True) 
+
 I used Colabotory but you could also use Jupyter
