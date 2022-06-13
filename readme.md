@@ -137,6 +137,16 @@ cat_merged_df = pd.merge(cat_number, category_installs, on='Category', how="inne
 print(f'The dimensions of the DataFrame are: {cat_merged_df.shape}')
 cat_merged_df.sort_values('Installs', ascending=False)
 
+#A
+top_cities = df_data.groupby("organization_city", as_index=False).agg({"prize": pd.Series.count})
+top_cities.sort_values("prize", ascending=True, inplace=True)
+#B
+birthplaces = df_data["birth_city"].value_counts()[:20]
+birthplaces.sort_values(ascending=True, inplace=True)
+#A similar result to B
+
+Add a separate line for sort_values, you can't combine it in one line
+
 Pull a random sample from a DataFrame using .sample()
 
 How to find duplicate entries with .duplicated() and .drop_duplicates()
@@ -151,6 +161,9 @@ genre_bar = px.bar(top_genres, x=top_genres.index, y=top_genres.values, color=to
 genre_bar.update_layout(xaxis_title="Number of Apps", yaxis_title="Genre", title="Top Genres", coloraxis_showscale=False)
 
 genre_bar.show()
+
+sun_plot = px.sunburst(sunburst, path=["organization_country", "organization_city", "organization_name"], values="prize")
+sun_plot.show()
 
 
     Use nested loops to remove unwanted characters from multiple columns
