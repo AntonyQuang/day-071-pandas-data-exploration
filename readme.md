@@ -192,6 +192,8 @@ year = mdates.YearLocator()
 months = mdates.MonthLocator() 
 years_fmt = mdates.DateFormatter('%Y')
 
+Making another column
+df_data[df_data['winning_age']== df_data['winning_age'].min()]
 
 Doing cumsum
 
@@ -200,5 +202,56 @@ prize_by_year = prize_by_year.sort_values('year')[['year', 'birth_country_curren
 cumulative_prizes = prize_by_year.groupby(by=['birth_country_current', 'year']).sum().groupby(level=[0]).cumsum()
 print(cumulative_prizes)
 cumulative_prizes.reset_index(inplace=True) 
+
+Doing Seaborn's Histograms
+plt.figure(figsize=(8, 4), dpi=200)
+sns.histplot(df_data, x="winning_age", bins=10)
+plt.xlabel('Winning Age')
+plt.ylabel('Count')
+plt.show()
+
+Doing Seaborn's regression plot: regplot
+plt.figure(figsize=(8, 4), dpi=200)
+with sns.axes_style("whitegrid"):
+  sns.regplot(data=df_data,
+              y=df_data.winning_age,
+              x=df_data.year,
+              lowess=True,
+              scatter_kws = {'alpha': 0.4},
+              line_kws={'color': 'black'})
+  plt.xlabel('Year')
+  plt.ylabel('Winning Age')
+  plt.title('Changes in Winning Age over Time')
+plt.show()
+
+
+Doing Seaborn's boxplot: boxplot
+
+plt.figure(figsize=(8, 4), dpi=200)
+with sns.axes_style("whitegrid"):
+  sns.boxplot(data=df_data,
+              y=df_data.winning_age,
+              x=df_data.category)
+  plt.xlabel('Category')
+  plt.ylabel('Winning Age')
+  plt.title('Winning Age in Categories')
+plt.show()
+
+
+Doing Seaborn's lineplot: lmplot
+
+plt.figure(figsize=(8, 4), dpi=200)
+with sns.axes_style("whitegrid"):
+  sns.lmplot(data=df_data,
+             y="winning_age",
+             x="year",
+             row="category",
+             lowess=True,
+             scatter_kws = {'alpha': 0.4},
+             line_kws = {'color': 'black'})
+  plt.xlabel('Year')
+  plt.ylabel('Winning Age')
+  plt.title('Changes in Winning Age over Time')
+plt.show()
 
 I used Colabotory but you could also use Jupyter
