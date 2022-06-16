@@ -37,7 +37,7 @@ converted strings to Datetime objects with to_datetime() for easier plotting
 
 reshaped our DataFrame by converting categories to columns using .pivot()
 
-used .count() and isna().values.any() to look for NaN values in our DataFrame, which we then replaced using .fillna()
+used .count() and isna().values.any() to look for NaN values in our DataFrame (this returns True or False), which we then replaced using .fillna()
 use df_data.isna().sum() to show how many NaN values there are in each column of dataframe df_data
 
 created (multiple) line charts using .plot() with a for-loop
@@ -103,6 +103,39 @@ plt.xticks(ticks=five_year_ticks,
 ax1 = plt.gca()
 ax2 = ax1.twinx()
 
+ax1.plot(df_tesla.MONTH, df_tesla["TSLA_USD_CLOSE"], color="#ff3308", linewidth=1)
+ax2.plot(df_tesla.MONTH, df_tesla["TSLA_WEB_SEARCH"], color="blue", linewidth=1)
+
+ax1.set_ylabel('TSLA Stock price', color='#ff3308', fontsize=14)
+
+ax2.set_ylabel('Search Trend', color='blue', fontsize=14)
+
+ax1.set_ylim([0, 600]) 
+
+ax1.set_xlim([df_tesla.MONTH.min(), df_tesla.MONTH.max()])
+
+ax1.grid(color="gray", linestyle="--")
+
+format the ticks
+ax1.xaxis.set_major_locator(year)
+ax1.xaxis.set_major_formatter(years_fmt)
+ax1.xaxis.set_minor_locator(months)
+
+plt.show()
+
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
+
+Create locators for ticks on the time axis
+
+year = mdates.YearLocator()
+months = mdates.MonthLocator() 
+years_fmt = mdates.DateFormatter('%Y')
+
+ax1.xaxis.set_major_locator(year)
+ax1.xaxis.set_major_formatter(years_fmt)
+ax1.xaxis.set_minor_locator(months)
+
     How to use .describe() to quickly see some descriptive statistics at a glance.
 
     How to use .resample() to make a time-series data comparable to another by changing the periodicity.
@@ -152,6 +185,7 @@ Pull a random sample from a DataFrame using .sample()
 How to find duplicate entries with .duplicated() and .drop_duplicates()
 
 duplicated_rows = df_apps_clean[df_apps_clean.duplicated()]
+df_yearly.duplicated().values.any() returns True or False (Answers whether there are any duplicates)
 
 How to convert string and object data types into numbers with .to_numeric()
 
@@ -253,5 +287,42 @@ with sns.axes_style("whitegrid"):
   plt.ylabel('Winning Age')
   plt.title('Changes in Winning Age over Time')
 plt.show()
+
+bw_line, = plt.plot(before_washing.date, 
+                    before_washing.pct_deaths,
+                    color='black', 
+                    linewidth=1, 
+                    linestyle='--', 
+                    label='Before Handwashing')
+aw_line, = plt.plot(after_washing.date, 
+                    after_washing.pct_deaths, 
+                    color='skyblue', 
+                    linewidth=3, 
+                    marker='o',
+                    label='After Handwashing')
+plt.legend(handles=[bw_line, aw_line],
+           fontsize=18)
+
+
+To create the legend, we supply a label to the .plot() function and capture return value in a variable. It's important to notice that .plot() returns more than one thing, so we need to use a comma (,) since we're only grabbing the first item. We can then feed these handles into plt.legend(). 
+
+
+KDE:
+
+plt.figure(dpi=200)
+# By default the distribution estimate includes a negative death rate!
+sns.kdeplot(df_before.pct_deaths, fill=True, clip=(0,100))
+sns.kdeplot(df_after.pct_deaths, fill=True, clip=(0,100))
+plt.title('Est. Distribution of Monthly Death Rate Before and After Handwashing')
+plt.xlim(0, 40)
+plt.show()
+
+Use a t-test to determine if the differences in the means are statistically significant or purely due to chance.
+
+If the p-value is less than 1% then we can be 99% certain that handwashing has made a difference to the average monthly death rate.
+
+from scipy import stats
+
+stats.ttest_ind(df_before.pct_deaths, df_after.pct_deaths)
 
 I used Colabotory but you could also use Jupyter
